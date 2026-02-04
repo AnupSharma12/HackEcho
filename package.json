@@ -14,7 +14,7 @@
   },
   "license": "MIT",
   "author": "AnupSharma12",
-  "type": "commonjs",
+  "type": "module",
   "main": "next.config.js",
   "directories": {
     "lib": "lib"
