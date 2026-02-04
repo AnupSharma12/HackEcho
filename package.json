@@ -1,7 +1,24 @@
 {
   "name": "hackecho",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "HackEcho is an open-source, AI‑powered learning platform.",
+  "keywords": [],
+  "homepage": "https://github.com/AnupSharma12/HackEcho#readme",
+  "bugs": {
+    "url": "https://github.com/AnupSharma12/HackEcho/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnupSharma12/HackEcho.git"
+  },
+  "license": "MIT",
+  "author": "AnupSharma12",
+  "type": "commonjs",
+  "main": "next.config.js",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -20,6 +37,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "25.2.0",
     "@types/react": "19.2.10",
     "autoprefixer": "^10.4.19",
