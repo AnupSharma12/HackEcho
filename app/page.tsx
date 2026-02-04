@@ -9,8 +9,9 @@ export default function Home() {
       title="Home"
       description="Sync with the instructor, echo the code, and level up your skills."
     >
-      <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur">
+      <section className="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-8 backdrop-blur">
+          <div className="absolute right-6 top-6 h-28 w-28 rounded-full bg-electric-cyan/10 blur-2xl" />
           <p className="text-xs uppercase tracking-[0.2em] text-electric-cyan/80">
             Learn by echoing
           </p>
@@ -41,6 +42,23 @@ export default function Home() {
               Sign In
             </Link>
           </div>
+          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            {[
+              { label: "Weekly XP", value: "+1.2k" },
+              { label: "Active Learners", value: "14k" },
+              { label: "Completion Rate", value: "92%" }
+            ].map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-xl border border-white/10 bg-industrial-after-dark/70 p-3"
+              >
+                <p className="text-xs text-chalk-white/50">{stat.label}</p>
+                <p className="text-lg font-semibold text-electric-cyan">
+                  {stat.value}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="rounded-2xl border border-white/10 bg-industrial-after-dark/70 p-6">
           <h3 className="text-lg font-semibold">Why students love it</h3>
@@ -51,6 +69,13 @@ export default function Home() {
           </ul>
           <div className="mt-6 rounded-xl border border-electric-cyan/20 bg-electric-cyan/10 p-4 text-xs text-electric-cyan">
             New: Multi-language tracks in JavaScript, Python, Java, and more.
+          </div>
+          <div className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4 text-xs text-chalk-white/70">
+            <p className="font-semibold text-chalk-white">AI generated</p>
+            <p className="mt-2">
+              Every level ships with personalized docs, example code, and instant
+              feedback.
+            </p>
           </div>
         </div>
       </section>
@@ -80,6 +105,53 @@ export default function Home() {
             </p>
           </div>
         ))}
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-3">
+        {[
+          {
+            title: "1. Choose a language",
+            description: "Pick JavaScript, Python, Java, or any track you want."
+          },
+          {
+            title: "2. Generate your level",
+            description: "AI builds docs + examples once per level."
+          },
+          {
+            title: "3. Submit + unlock",
+            description: "Get feedback and unlock the next level."
+          }
+        ].map((step) => (
+          <div
+            key={step.title}
+            className="rounded-2xl border border-white/10 bg-industrial-after-dark/70 p-6"
+          >
+            <h3 className="text-lg font-semibold text-electric-cyan">
+              {step.title}
+            </h3>
+            <p className="mt-2 text-sm text-chalk-white/70">
+              {step.description}
+            </p>
+          </div>
+        ))}
+      </section>
+
+      <section className="rounded-2xl border border-white/10 bg-white/5 p-8">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h3 className="text-2xl font-semibold">Built for focused learning</h3>
+            <p className="mt-2 text-sm text-chalk-white/70">
+              Keep your streak alive with clear goals, short sessions, and AI
+              feedback.
+            </p>
+          </div>
+          <Link
+            href="/dashboard"
+            className="rounded-full bg-neon-purple px-5 py-2 text-sm font-semibold text-chalk-white"
+          >
+            Open Dashboard
+          </Link>
+        </div>
       </section>
     </PageShell>
   );

@@ -3,14 +3,14 @@ import Logo from "./Logo";
 
 const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/levels", label: "Levels" },
   { href: "/leaderboard", label: "Leaderboard" },
   { href: "/badges", label: "Badges" },
   { href: "/profile", label: "Profile" },
   { href: "/settings", label: "Settings" },
   { href: "/login", label: "Login" },
-  { href: "/register", label: "Register" },
-  { href: "/more", label: "More" }
+  { href: "/register", label: "Register" }
 ];
 
 export default function SiteHeader() {
