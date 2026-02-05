@@ -18,10 +18,9 @@ export function LoginForm() {
     setLoading(true);
     try {
       await auth.signInWithEmail(email, password);
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message);
-    } finally {
       setLoading(false);
     }
   };

@@ -20,10 +20,9 @@ export function RegisterForm() {
     setLoading(true);
     try {
       await auth.signUpWithEmail(email, password, name);
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message);
-    } finally {
       setLoading(false);
     }
   };
