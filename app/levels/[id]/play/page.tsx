@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { use, useState } from "react";
 import InteractivePlayer from "../../../../components/InteractivePlayer";
 import PageShell from "../../../../components/PageShell";
 
@@ -41,10 +41,11 @@ const levelConfigs: Record<string, { title: string }> = {
 export default function PlayLevelPage({
   params
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = use(params);
   const [xp, setXp] = useState(0);
-  const level = levelConfigs[params.id] ?? levelConfigs["1"];
+  const level = levelConfigs[id] ?? levelConfigs["1"];
   const levelTitle = level.title;
 
   return (

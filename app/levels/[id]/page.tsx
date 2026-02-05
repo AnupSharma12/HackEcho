@@ -1,3 +1,4 @@
+import { use } from "react";
 import Link from "next/link";
 import PageShell from "../../../components/PageShell";
 
@@ -17,9 +18,10 @@ const levels = [
 export default function LevelDetailPage({
   params
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const level = levels.find((item) => item.id === params.id);
+  const { id } = use(params);
+  const level = levels.find((item) => item.id === id);
 
   if (!level) {
     return (
