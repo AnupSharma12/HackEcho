@@ -49,12 +49,27 @@ export async function GET(request: Request) {
   await connectDb();
   let user = await User.findOne({ email });
   if (!user) {
+    // Generate username from GitHub login or email
+    const baseUsername = profile.login || email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '');
+    let username = baseUsername;
+    let counter = 1;
+    
+    // Ensure unique username
+    while (await User.findOne({ username })) {
+      username = `${baseUsername}${counter}`;
+      counter++;
+    }
+
     user = await User.create({
       email,
+      username,
       name: profile.name || profile.login,
       provider: "github",
       providerId: profile.id?.toString(),
-      profilePicture: profile.avatar_url
+      profilePicture: profile.avatar_url,
+      xp: 0,
+      completedLevels: [],
+      languageProgress: {}
     });
   } else if (!user.profilePicture && profile.avatar_url) {
     user.profilePicture = profile.avatar_url;

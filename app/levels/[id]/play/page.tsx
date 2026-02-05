@@ -5,36 +5,46 @@ import { use, useState } from "react";
 import InteractivePlayer from "../../../../components/InteractivePlayer";
 import PageShell from "../../../../components/PageShell";
 
-const levelConfigs: Record<string, { title: string }> = {
+const levelConfigs: Record<string, { title: string; topic: string }> = {
   "1": {
-    title: "Echo Basics"
+    title: "Hello World & Syntax",
+    topic: "Introduction to programming fundamentals and syntax basics"
   },
   "2": {
-    title: "Variables & Types"
+    title: "Variables & Data Types",
+    topic: "Understanding primitive data types and variable declarations"
   },
   "3": {
-    title: "Control Flow"
+    title: "Conditionals & Logic",
+    topic: "Decision making with if/else and boolean logic"
   },
   "4": {
-    title: "Functions"
+    title: "Loops & Iteration",
+    topic: "Repeating code execution with for, while, and do-while loops"
   },
   "5": {
-    title: "Arrays & Loops"
+    title: "Functions & Modularity",
+    topic: "Creating reusable code blocks with parameters and return values"
   },
   "6": {
-    title: "Objects & Classes"
+    title: "Arrays & Collections",
+    topic: "Working with ordered data collections and array methods"
   },
   "7": {
-    title: "Async Echo"
+    title: "Objects & Dictionaries",
+    topic: "Structuring data with key-value pairs and object properties"
   },
   "8": {
-    title: "Debugging"
+    title: "Async & Promises",
+    topic: "Handling asynchronous operations and event-driven programming"
   },
   "9": {
-    title: "Data Structures"
+    title: "Error Handling & Debugging",
+    topic: "Managing exceptions and debugging code effectively"
   },
   "10": {
-    title: "Mini Project"
+    title: "Capstone Project",
+    topic: "Building a complete application integrating all learned concepts"
   }
 };
 

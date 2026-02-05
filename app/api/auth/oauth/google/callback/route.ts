@@ -39,12 +39,27 @@ export async function GET(request: Request) {
   await connectDb();
   let user = await User.findOne({ email: profile.email });
   if (!user) {
+    // Generate username from email
+    const baseUsername = profile.email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '');
+    let username = baseUsername;
+    let counter = 1;
+    
+    // Ensure unique username
+    while (await User.findOne({ username })) {
+      username = `${baseUsername}${counter}`;
+      counter++;
+    }
+
     user = await User.create({
       email: profile.email,
+      username,
       name: profile.name,
       provider: "google",
       providerId: profile.sub,
-      profilePicture: profile.picture
+      profilePicture: profile.picture,
+      xp: 0,
+      completedLevels: [],
+      languageProgress: {}
     });
   } else if (!user.profilePicture && profile.picture) {
     user.profilePicture = profile.picture;

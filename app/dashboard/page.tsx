@@ -1,13 +1,13 @@
 import PageShell from "../../components/PageShell";
-import LearningDashboard from "../../components/LearningDashboard";
+import NewLearningDashboard from "../../components/NewLearningDashboard";
 
 export default function DashboardPage() {
   return (
     <PageShell
-      title="AI Learning Dashboard"
-      description="Generate personalized documentation, examples, and answer checks with AI."
+      title="Learning Dashboard"
+      description="Choose a programming language and start learning!"
     >
-      <LearningDashboard />
+      <NewLearningDashboard />
     </PageShell>
   );
 }

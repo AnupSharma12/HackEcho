@@ -13,7 +13,7 @@ type User = {
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  signUpWithEmail: (email: string, password: string, name: string) => Promise<void>;
+  signUpWithEmail: (email: string, password: string, name: string, username: string) => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signInWithGitHub: () => Promise<void>;
   signInWithGoogle: () => Promise<void>;
@@ -54,10 +54,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refresh();
   }, [refresh]);
 
-  const signUpWithEmail = async (email: string, password: string, name: string) => {
+  const signUpWithEmail = async (email: string, password: string, name: string, username: string) => {
     await fetchJson("/api/auth/register", {
       method: "POST",
-      body: JSON.stringify({ email, password, name })
+      body: JSON.stringify({ email, password, name, username })
     });
     await refresh();
   };

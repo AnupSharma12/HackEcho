@@ -14,7 +14,7 @@ const publicNavLinks = [
 ];
 
 const authenticatedNavLinks = [
-  { href: "/", label: "Home" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/levels", label: "Levels" },
   { href: "/leaderboard", label: "Leaderboard" }
 ];

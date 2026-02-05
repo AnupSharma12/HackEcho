@@ -1,9 +1,36 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import PageShell from "../components/PageShell";
+import { useAuth } from "@/lib/auth-context";
 
 export default function Home() {
+  const router = useRouter();
+  const { user, loading } = useAuth();
+
+  // Redirect to dashboard if logged in
+  useEffect(() => {
+    if (!loading && user) {
+      router.push("/dashboard");
+    }
+  }, [user, loading, router]);
+
+  // Show loading while checking auth
+  if (loading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-chalk-white/60">Loading...</p>
+      </div>
+    );
+  }
+
+  // Only show home page if not logged in
+  if (user) {
+    return null;
+  }
+
   return (
     <PageShell
       title="Home"

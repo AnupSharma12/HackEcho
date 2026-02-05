@@ -2,16 +2,16 @@ import Link from "next/link";
 import PageShell from "../../components/PageShell";
 
 const levels = [
-  { id: "1", title: "Echo Basics", xp: 50, lessons: 3 },
-  { id: "2", title: "Variables & Types", xp: 60, lessons: 4 },
-  { id: "3", title: "Control Flow", xp: 70, lessons: 5 },
-  { id: "4", title: "Functions", xp: 80, lessons: 5 },
-  { id: "5", title: "Arrays & Loops", xp: 90, lessons: 6 },
-  { id: "6", title: "Objects & Classes", xp: 100, lessons: 6 },
-  { id: "7", title: "Async Echo", xp: 110, lessons: 6 },
-  { id: "8", title: "Debugging", xp: 120, lessons: 7 },
-  { id: "9", title: "Data Structures", xp: 130, lessons: 7 },
-  { id: "10", title: "Mini Project", xp: 150, lessons: 8 }
+  { id: "1", title: "Hello World & Syntax", xp: 50, lessons: 3 },
+  { id: "2", title: "Variables & Data Types", xp: 60, lessons: 4 },
+  { id: "3", title: "Conditionals & Logic", xp: 70, lessons: 5 },
+  { id: "4", title: "Loops & Iteration", xp: 80, lessons: 5 },
+  { id: "5", title: "Functions & Modularity", xp: 90, lessons: 6 },
+  { id: "6", title: "Arrays & Collections", xp: 100, lessons: 6 },
+  { id: "7", title: "Objects & Dictionaries", xp: 110, lessons: 6 },
+  { id: "8", title: "Async & Promises", xp: 120, lessons: 7 },
+  { id: "9", title: "Error Handling & Debugging", xp: 130, lessons: 7 },
+  { id: "10", title: "Capstone Project", xp: 150, lessons: 8 }
 ];
 
 export default function LevelsPage() {

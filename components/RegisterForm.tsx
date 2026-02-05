@@ -9,6 +9,7 @@ export function RegisterForm() {
   const router = useRouter();
   const auth = useAuth();
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,7 +20,7 @@ export function RegisterForm() {
     setError("");
     setLoading(true);
     try {
-      await auth.signUpWithEmail(email, password, name);
+      await auth.signUpWithEmail(email, password, name, username);
       window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message);
@@ -62,7 +63,18 @@ export function RegisterForm() {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Student Name"
+          placeholder="Your Name"
+          className="mt-2 w-full rounded-xl border border-white/10 bg-industrial-after-dark px-4 py-3 text-sm text-chalk-white"
+          required
+        />
+      </div>
+      <div>
+        <label className="text-xs uppercase text-chalk-white/60">Username</label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Choose a username"
           className="mt-2 w-full rounded-xl border border-white/10 bg-industrial-after-dark px-4 py-3 text-sm text-chalk-white"
           required
         />
