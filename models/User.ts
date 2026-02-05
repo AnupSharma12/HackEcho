@@ -6,6 +6,7 @@ export type UserDocument = mongoose.Document & {
   passwordHash?: string;
   provider?: "credentials" | "google" | "github";
   providerId?: string;
+  profilePicture?: string;
   currentLevelByLanguage: Record<string, number>;
   progress: Array<{
     language: string;
@@ -38,6 +39,7 @@ const UserSchema = new Schema<UserDocument>(
     passwordHash: String,
     provider: { type: String, default: "credentials" },
     providerId: String,
+    profilePicture: String,
     currentLevelByLanguage: { type: Schema.Types.Mixed, default: {} },
     progress: { type: [ProgressSchema], default: [] }
   },

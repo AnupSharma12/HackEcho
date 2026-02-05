@@ -53,8 +53,12 @@ export async function GET(request: Request) {
       email,
       name: profile.name || profile.login,
       provider: "github",
-      providerId: profile.id?.toString()
+      providerId: profile.id?.toString(),
+      profilePicture: profile.avatar_url
     });
+  } else if (!user.profilePicture && profile.avatar_url) {
+    user.profilePicture = profile.avatar_url;
+    await user.save();
   }
 
   const token = signToken({ sub: user.id, email: user.email, name: user.name, provider: "github" });

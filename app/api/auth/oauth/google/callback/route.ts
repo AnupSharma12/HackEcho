@@ -43,8 +43,12 @@ export async function GET(request: Request) {
       email: profile.email,
       name: profile.name,
       provider: "google",
-      providerId: profile.sub
+      providerId: profile.sub,
+      profilePicture: profile.picture
     });
+  } else if (!user.profilePicture && profile.picture) {
+    user.profilePicture = profile.picture;
+    await user.save();
   }
 
   const token = signToken({ sub: user.id, email: user.email, name: user.name, provider: "google" });
