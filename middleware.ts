@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyToken } from "./lib/jwt";
+import { jwtVerify } from "jose";
 
-export function middleware(request: NextRequest) {
+const JWT_SECRET = process.env.JWT_SECRET || "";
+
+export async function middleware(request: NextRequest) {
   const protectedPaths = ["/dashboard", "/levels", "/profile", "/settings"];
   const isProtected = protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path));
 
@@ -14,9 +16,10 @@ export function middleware(request: NextRequest) {
   }
 
   try {
-    verifyToken(token);
+    const secret = new TextEncoder().encode(JWT_SECRET);
+    await jwtVerify(token, secret);
     return NextResponse.next();
-  } catch {
+  } catch (error) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }
