@@ -17,6 +17,12 @@ import { JAVASCRIPT_LEVELS } from "./levels/javascript";
 import { PYTHON_LEVELS } from "./levels/python";
 import { JAVA_LEVELS } from "./levels/java";
 import { CPP_LEVELS } from "./levels/cpp";
+import { GO_LEVELS } from "./levels/go";
+import { CSHARP_LEVELS } from "./levels/csharp";
+import { RUST_LEVELS } from "./levels/rust";
+import { TYPESCRIPT_LEVELS } from "./levels/typescript";
+import { PHP_LEVELS } from "./levels/php";
+import { RUBY_LEVELS } from "./levels/ruby";
 
 export type LevelData = {
   levelId: string;
@@ -35,7 +41,13 @@ export const LEVELS: LevelData[] = [
   ...JAVASCRIPT_LEVELS,
   ...PYTHON_LEVELS,
   ...JAVA_LEVELS,
-  ...CPP_LEVELS
+  ...CPP_LEVELS,
+  ...GO_LEVELS,
+  ...CSHARP_LEVELS,
+  ...RUST_LEVELS,
+  ...TYPESCRIPT_LEVELS,
+  ...PHP_LEVELS,
+  ...RUBY_LEVELS
   // Add more language imports here
 ];
 

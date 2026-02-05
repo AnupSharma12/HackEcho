@@ -8,6 +8,12 @@ Each programming language has its own separate file in this folder. This makes i
 - **python.ts** - Python levels  
 - **java.ts** - Java levels
 - **cpp.ts** - C++ levels
+- **go.ts** - Go levels
+- **csharp.ts** - C# levels
+- **rust.ts** - Rust levels
+- **typescript.ts** - TypeScript levels
+- **php.ts** - PHP levels
+- **ruby.ts** - Ruby levels
 
 ## Adding Levels to an Existing Language
 
