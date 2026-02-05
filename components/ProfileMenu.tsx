@@ -54,6 +54,13 @@ export default function ProfileMenu() {
 
             <nav className="space-y-1 p-2">
               <Link
+                href="/dashboard"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-lg px-4 py-2 text-sm text-chalk-white/80 hover:bg-electric-cyan/10 hover:text-electric-cyan transition"
+              >
+                📊 Dashboard
+              </Link>
+              <Link
                 href="/profile"
                 onClick={() => setIsOpen(false)}
                 className="block rounded-lg px-4 py-2 text-sm text-chalk-white/80 hover:bg-electric-cyan/10 hover:text-electric-cyan transition"
