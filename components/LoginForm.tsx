@@ -18,7 +18,7 @@ export function LoginForm() {
     setLoading(true);
     try {
       await auth.signInWithEmail(email, password);
-      router.push("/profile");
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.message);
     } finally {

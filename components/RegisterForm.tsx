@@ -20,7 +20,7 @@ export function RegisterForm() {
     setLoading(true);
     try {
       await auth.signUpWithEmail(email, password, name);
-      router.push("/login?message=Check your email to confirm your account");
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.message);
     } finally {

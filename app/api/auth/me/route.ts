@@ -20,7 +20,8 @@ export async function GET() {
       id: user.id,
       email: user.email,
       name: user.name,
-      provider: user.provider
+      provider: user.provider,
+      profilePicture: user.profilePicture
     }
   });
 }

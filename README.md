@@ -1,7 +1,31 @@
 # HackEcho
 
 **HackEcho** is an open-source, AI‑powered learning platform that turns coding lessons into interactive, gamified quests. Each level generates **documentation**, **example code**, and **answer feedback** tailored to the user’s language and level—**only once** per user + level + language to preserve consistency and save AI credits.
+🚀 **[Live Demo](#)** | 📖 **[Deployment Guide](DEPLOYMENT_GUIDE.md)** | 🔑 **[OAuth Setup](OAUTH_SETUP.md)**
 
+---
+
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/AnupSharma12/HackEcho.git
+cd HackEcho
+
+# Install dependencies
+npm install
+
+# Copy environment file
+cp .env.example .env.local
+# Edit .env.local with your credentials
+
+# Run development server
+npm run dev
+```
+
+Visit **http://localhost:3000** to see the app!
+
+For detailed setup instructions, see **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)**
 ---
 
 ## ✨ Highlights
@@ -125,7 +149,43 @@ Protected routes: `/dashboard`, `/levels`, `/profile`, `/settings`
 - exampleCode
 - question
 - aiFeedback
-- attempts
+- a🚢 Deployment
+
+### ✅ Completed
+- [x] AI-powered level generation (Google Gemini)
+- [x] Answer evaluation with feedback
+- [x] Email/password authentication
+- [x] Google OAuth integration
+- [x] GitHub OAuth integration
+- [x] User profile with avatar
+- [x] Profile menu with navigation
+- [x] Level progression system
+- [x] MongoDB persistence
+
+### 🔜 Upcoming
+- [ ] Admin panel to manage AI prompts
+- [ ] Leaderboards + global rankings
+- [ ] Streak tracking and gamification
+- [ ] Team classrooms and collaboration
+- [ ] Export learning reports (PDF)
+- [ ] Mobile app (React Native)
+- [ ] Code playground with live execution
+- [ ] Multi-language support (UI
+1. Click the button above or connect your GitHub repo to Vercel
+2. Add environment variables (see `.env.example`)
+3. Deploy!
+
+### Other Platforms
+
+- **Railway**: Connect GitHub → Add env vars → Deploy
+- **DigitalOcean**: Use App Platform with GitHub integration
+- **Netlify**: Use Next.js plugin + environment variables
+
+For detailed deployment instructions, see **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)**
+
+---
+
+## ttempts
 
 ---
 

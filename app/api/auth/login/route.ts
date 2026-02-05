@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     const token = signToken({ sub: user.id, email: user.email, name: user.name, provider: user.provider });
-    const response = NextResponse.json({ user: { id: user.id, email: user.email, name: user.name } });
+    const response = NextResponse.json({ user: { id: user.id, email: user.email, name: user.name, profilePicture: user.profilePicture } });
     response.cookies.set("hackecho_token", token, {
       httpOnly: true,
       sameSite: "lax",
