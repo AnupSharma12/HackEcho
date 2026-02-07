@@ -35,6 +35,14 @@ export async function POST(request: Request) {
       provider: "credentials",
       xp: 0,
       completedLevels: [],
+      completedQuests: [],
+      currentStreak: 0,
+      longestStreak: 0,
+      preferences: {
+        autoSave: true,
+        darkMode: true,
+        xpNotifications: false
+      },
       languageProgress: {}
     });
 

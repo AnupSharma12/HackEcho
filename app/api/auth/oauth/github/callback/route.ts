@@ -69,6 +69,14 @@ export async function GET(request: Request) {
       profilePicture: profile.avatar_url,
       xp: 0,
       completedLevels: [],
+      completedQuests: [],
+      currentStreak: 0,
+      longestStreak: 0,
+      preferences: {
+        autoSave: true,
+        darkMode: true,
+        xpNotifications: false
+      },
       languageProgress: {}
     });
   } else if (!user.profilePicture && profile.avatar_url) {

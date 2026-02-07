@@ -5,9 +5,25 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 type User = {
   id: string;
   email: string;
+  username?: string;
   name?: string;
   provider?: string;
   profilePicture?: string;
+  xp?: number;
+  completedLevels?: string[];
+  completedQuests?: string[];
+  currentStreak?: number;
+  longestStreak?: number;
+  preferences?: {
+    autoSave: boolean;
+    darkMode: boolean;
+    xpNotifications: boolean;
+  };
+  languageProgress?: Record<string, {
+    currentLevel: number;
+    completedLevels: string[];
+    totalXp: number;
+  }>;
 };
 
 type AuthContextType = {

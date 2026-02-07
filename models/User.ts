@@ -10,6 +10,15 @@ export type UserDocument = mongoose.Document & {
   profilePicture?: string;
   xp: number;
   completedLevels: string[];
+  completedQuests: string[];
+  currentStreak: number;
+  longestStreak: number;
+  lastActiveAt?: Date;
+  preferences?: {
+    autoSave: boolean;
+    darkMode: boolean;
+    xpNotifications: boolean;
+  };
   languageProgress: Record<string, {
     currentLevel: number;
     completedLevels: string[];
@@ -28,6 +37,15 @@ const UserSchema = new Schema<UserDocument>(
     profilePicture: String,
     xp: { type: Number, default: 0 },
     completedLevels: { type: [String], default: [] },
+    completedQuests: { type: [String], default: [] },
+    currentStreak: { type: Number, default: 0 },
+    longestStreak: { type: Number, default: 0 },
+    lastActiveAt: { type: Date },
+    preferences: {
+      autoSave: { type: Boolean, default: true },
+      darkMode: { type: Boolean, default: true },
+      xpNotifications: { type: Boolean, default: false }
+    },
     languageProgress: { type: Schema.Types.Mixed, default: {} }
   },
   { timestamps: true }

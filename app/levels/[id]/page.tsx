@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use, useMemo } from "react";
+import { useState, useEffect, use } from "react";
 import { useAuth } from "@/lib/auth-context";
 import Link from "next/link";
 import { marked } from "marked";
@@ -26,12 +26,14 @@ type LevelData = {
 
 export default function LevelPage({ params }: { params: Promise<{ id: string }> }) {
   const { id: levelId } = use(params);
-  const { user } = useAuth();
+  const { user, refresh } = useAuth();
   const [level, setLevel] = useState<LevelData | null>(null);
   const [loading, setLoading] = useState(true);
   const [mcqAnswers, setMcqAnswers] = useState<number[]>([]);
   const [mcqError, setMcqError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [showCompletion, setShowCompletion] = useState(false);
+  const [completedNow, setCompletedNow] = useState(false);
   const [feedback, setFeedback] = useState<{
     correct: boolean;
     feedback: string;
@@ -40,7 +42,7 @@ export default function LevelPage({ params }: { params: Promise<{ id: string }> 
   } | null>(null);
 
   const completedLevels = (user as any)?.completedLevels || [];
-  const isCompleted = completedLevels.includes(levelId);
+  const isCompleted = completedNow || completedLevels.includes(levelId);
 
   useEffect(() => {
     fetch(`/api/levels?levelId=${levelId}`)
@@ -90,11 +92,14 @@ export default function LevelPage({ params }: { params: Promise<{ id: string }> 
       const data = await res.json();
       setFeedback(data);
 
-      // If correct, refresh user data after a moment
+      // If correct, refresh user data and show completion animation
       if (data.correct) {
+        setCompletedNow(true);
+        setShowCompletion(true);
+        await refresh();
         setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+          setShowCompletion(false);
+        }, 1800);
       }
     } catch (error) {
       setFeedback({
@@ -138,6 +143,11 @@ export default function LevelPage({ params }: { params: Promise<{ id: string }> 
 
   return (
     <div className="space-y-6">
+      {showCompletion ? (
+        <div className="level-complete-burst level-complete-glow rounded-2xl border border-electric-cyan/40 bg-electric-cyan/10 p-4 text-sm text-electric-cyan">
+          Level complete! XP and progress updated.
+        </div>
+      ) : null}
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
@@ -163,7 +173,7 @@ export default function LevelPage({ params }: { params: Promise<{ id: string }> 
       <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
         <h2 className="mb-4 text-xl font-bold text-electric-cyan">📚 Documentation</h2>
         <div
-          className="prose prose-invert max-w-none text-chalk-white/90"
+          className="docs-content prose prose-invert max-w-none text-chalk-white/90"
           dangerouslySetInnerHTML={{ __html: docsHtml }}
         />
       </div>
@@ -249,10 +259,10 @@ export default function LevelPage({ params }: { params: Promise<{ id: string }> 
         ) : null}
         <button
           onClick={handleSubmit}
-          disabled={submitting}
+          disabled={submitting || isCompleted}
           className="rounded-full bg-electric-cyan px-6 py-3 font-semibold text-industrial-after-dark shadow-glow transition hover:bg-electric-cyan/90 disabled:opacity-50"
         >
-          {submitting ? "Checking..." : "Submit Answers"}
+          {isCompleted ? "Completed" : submitting ? "Checking..." : "Submit Answers"}
         </button>
       </div>
     </div>

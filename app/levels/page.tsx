@@ -212,12 +212,6 @@ export default function LevelsPage() {
                       >
                         View Level
                       </Link>
-                      <Link
-                        href={`/levels/${level.levelId}/play`}
-                        className="rounded-full bg-electric-cyan px-4 py-2 text-xs font-semibold text-industrial-after-dark"
-                      >
-                        Practice
-                      </Link>
                     </div>
                   </div>
                 </div>

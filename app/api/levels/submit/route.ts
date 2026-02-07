@@ -3,6 +3,7 @@ import { connectDb } from "@/lib/db";
 import { User } from "@/models/User";
 import { getAuthUser } from "@/lib/auth-server";
 import { getLevelById } from "@/data/levels";
+import { buildStreakUpdate } from "@/lib/streaks";
 
 export async function POST(request: Request) {
   const auth = await getAuthUser();
@@ -83,6 +84,10 @@ export async function POST(request: Request) {
     };
   }
 
+  const streakUpdate = feedback.correct
+    ? buildStreakUpdate(user.lastActiveAt, user.currentStreak, user.longestStreak)
+    : null;
+
   // Award XP only if correct and not already completed
   let xpAwarded = 0;
   if (feedback.correct && !alreadyCompleted) {
@@ -91,7 +96,7 @@ export async function POST(request: Request) {
     // Update user progress
     await User.findByIdAndUpdate(auth.sub, {
       $inc: { xp: xpAwarded },
-      $addToSet: { 
+      $addToSet: {
         completedLevels: levelId,
         [`languageProgress.${level.language}.completedLevels`]: levelId
       },
@@ -100,9 +105,12 @@ export async function POST(request: Request) {
         [`languageProgress.${level.language}.currentLevel`]: Math.max(
           user.languageProgress[level.language]?.currentLevel || 1,
           parseInt(levelId.split('-')[1]) || 1
-        )
+        ),
+        ...(streakUpdate ?? {})
       }
     });
+  } else if (feedback.correct && streakUpdate) {
+    await User.findByIdAndUpdate(auth.sub, { $set: streakUpdate });
   }
 
   return NextResponse.json({
@@ -121,4 +129,5 @@ function normalizeCode(code: string): string {
     .replace(/;+$/g, "")
     .trim();
 }
+
 

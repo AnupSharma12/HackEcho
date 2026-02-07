@@ -19,9 +19,17 @@ export async function GET() {
     user: {
       id: user.id,
       email: user.email,
+      username: user.username,
       name: user.name,
       provider: user.provider,
-      profilePicture: user.profilePicture
+      profilePicture: user.profilePicture,
+      xp: user.xp,
+      completedLevels: user.completedLevels,
+      completedQuests: user.completedQuests,
+      currentStreak: user.currentStreak,
+      longestStreak: user.longestStreak,
+      preferences: user.preferences,
+      languageProgress: user.languageProgress
     }
   });
 }

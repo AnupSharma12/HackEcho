@@ -9,3 +9,50 @@
 body {
   @apply bg-industrial-after-dark text-chalk-white;
 }
+
+.docs-content pre {
+  @apply rounded-xl border border-white/10 bg-black/40 p-4 text-sm text-chalk-white/80 overflow-x-auto;
+}
+
+.docs-content code {
+  @apply rounded-md bg-white/10 px-1.5 py-0.5 text-[0.85em] text-electric-cyan;
+}
+
+.docs-content pre code {
+  @apply bg-transparent p-0 text-chalk-white/80;
+}
+
+.level-complete-burst {
+  animation: level-burst 900ms ease-out both;
+}
+
+.level-complete-glow {
+  animation: level-glow 1600ms ease-in-out both;
+}
+
+@keyframes level-burst {
+  0% {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  45% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes level-glow {
+  0% {
+    box-shadow: 0 0 0 rgba(0, 221, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(0, 221, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(0, 221, 255, 0.1);
+  }
+}

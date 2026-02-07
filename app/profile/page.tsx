@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/auth-context";
 import PageShell from "../../components/PageShell";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { computeBadges } from "@/lib/badges";
 
 export default function ProfilePage() {
   const auth = useAuth();
@@ -29,6 +30,16 @@ export default function ProfilePage() {
 
   const defaultAvatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${auth.user.email}`;
   const profilePicture = auth.user.profilePicture || defaultAvatarUrl;
+  const xp = auth.user.xp ?? 0;
+  const completedLevels = auth.user.completedLevels?.length ?? 0;
+  const currentStreak = auth.user.currentStreak ?? 0;
+  const level = Math.floor(xp / 500) + 1;
+  const badges = computeBadges({
+    xp,
+    completedLevels,
+    currentStreak,
+    longestStreak: auth.user.longestStreak ?? 0
+  }).filter((badge) => badge.unlocked);
 
   return (
     <PageShell
@@ -60,28 +71,32 @@ export default function ProfilePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-xl border border-white/10 bg-industrial-after-dark/70 p-4">
               <p className="text-xs text-chalk-white/60">Level</p>
-              <p className="text-2xl font-semibold text-neon-purple">4</p>
+              <p className="text-2xl font-semibold text-neon-purple">{level}</p>
             </div>
             <div className="rounded-xl border border-white/10 bg-industrial-after-dark/70 p-4">
               <p className="text-xs text-chalk-white/60">XP</p>
-              <p className="text-2xl font-semibold text-electric-cyan">320</p>
+              <p className="text-2xl font-semibold text-electric-cyan">{xp}</p>
             </div>
             <div className="rounded-xl border border-white/10 bg-industrial-after-dark/70 p-4">
               <p className="text-xs text-chalk-white/60">Streak</p>
-              <p className="text-2xl font-semibold">6 days</p>
+              <p className="text-2xl font-semibold">{currentStreak} days</p>
             </div>
             <div className="rounded-xl border border-white/10 bg-industrial-after-dark/70 p-4">
-              <p className="text-xs text-chalk-white/60">Quests Complete</p>
-              <p className="text-2xl font-semibold">18</p>
+              <p className="text-xs text-chalk-white/60">Levels Completed</p>
+              <p className="text-2xl font-semibold">{completedLevels}</p>
             </div>
           </div>
         </div>
         <div className="rounded-2xl border border-white/10 bg-industrial-after-dark/70 p-6">
           <h3 className="text-lg font-semibold">Badges</h3>
           <ul className="mt-4 space-y-3 text-sm text-chalk-white/70">
-            <li>🏅 First Script</li>
-            <li>🐞 Bug Hunter</li>
-            <li>🔥 7-Day Streak</li>
+            {badges.length === 0 ? (
+              <li>No badges unlocked yet. Complete a level to earn one.</li>
+            ) : (
+              badges.slice(0, 5).map((badge) => (
+                <li key={badge.id}>🏅 {badge.title}</li>
+              ))
+            )}
           </ul>
         </div>
       </div>
