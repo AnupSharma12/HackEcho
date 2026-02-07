@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import Editor from "@monaco-editor/react";
+import { useEffect, useMemo, useState } from "react";
 
 export type Milestone = {
   time: number;
@@ -12,8 +11,6 @@ export type Milestone = {
 type InteractivePlayerProps = {
   onMilestoneComplete?: (milestone: Milestone) => void;
 };
-
-const normalizeCode = (value: string) => value.replace(/\s+/g, " ").trim();
 
 const languageConfigs: Record<
   string,
@@ -136,14 +133,9 @@ export default function InteractivePlayer({
   onMilestoneComplete
 }: InteractivePlayerProps) {
   const [isRunning, setIsRunning] = useState(false);
-  const [code, setCode] = useState(languageConfigs.javascript.exampleCode);
-  const [lockedMilestone, setLockedMilestone] = useState<Milestone | null>(null);
   const [completedTimes, setCompletedTimes] = useState<number[]>([]);
   const [language, setLanguage] = useState("javascript");
-  const [output, setOutput] = useState("Run the code to see output.");
-  const [outputStatus, setOutputStatus] = useState<"idle" | "success" | "error">(
-    "idle"
-  );
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
   const languageContent = useMemo(
     () => languageConfigs[language] ?? languageConfigs.javascript,
@@ -151,9 +143,8 @@ export default function InteractivePlayer({
   );
 
   useEffect(() => {
-    setCode(languageContent.exampleCode);
-    setOutput("Run the code to see output.");
-    setOutputStatus("idle");
+    setElapsedSeconds(0);
+    setCompletedTimes([]);
   }, [languageContent]);
 
   const milestones = useMemo<Milestone[]>(
@@ -173,48 +164,23 @@ export default function InteractivePlayer({
   );
 
   useEffect(() => {
-    if (!isRunning || lockedMilestone) return;
+    if (!isRunning) return;
 
     const interval = setInterval(() => {
-      const nextMilestone = milestones.find(
-        (milestone) => !completedTimes.includes(milestone.time)
-      );
-
-      if (nextMilestone) {
-        setIsRunning(false);
-        setLockedMilestone(nextMilestone);
-      }
-    }, 1200);
+      setElapsedSeconds((prev) => prev + 1);
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, [completedTimes, isRunning, lockedMilestone, milestones]);
+  }, [isRunning]);
 
   useEffect(() => {
-    if (!lockedMilestone) return;
-
-    const normalizedInput = normalizeCode(code);
-    const normalizedRequired = normalizeCode(lockedMilestone.required);
-
-    if (normalizedInput === normalizedRequired) {
-      setCompletedTimes((prev) => [...prev, lockedMilestone.time]);
-      onMilestoneComplete?.(lockedMilestone);
-      setLockedMilestone(null);
-      setIsRunning(true);
-    }
-  }, [code, lockedMilestone, onMilestoneComplete]);
-
-  const handleRun = useCallback(() => {
-    const normalizedInput = normalizeCode(code);
-    const normalizedSolution = normalizeCode(languageContent.solutionCode);
-
-    if (normalizedInput === normalizedSolution) {
-      setOutput(languageContent.expectedOutput);
-      setOutputStatus("success");
-    } else {
-      setOutput("Output mismatch. Update the code and try again.");
-      setOutputStatus("error");
-    }
-  }, [code, languageContent]);
+    milestones.forEach((milestone) => {
+      if (elapsedSeconds >= milestone.time && !completedTimes.includes(milestone.time)) {
+        setCompletedTimes((prev) => [...prev, milestone.time]);
+        onMilestoneComplete?.(milestone);
+      }
+    });
+  }, [completedTimes, elapsedSeconds, milestones, onMilestoneComplete]);
 
   return (
     <div className="grid h-full grid-cols-1 gap-6 lg:grid-cols-2">
@@ -225,19 +191,18 @@ export default function InteractivePlayer({
         <div className="space-y-4 rounded-xl border border-white/10 bg-industrial-after-dark/70 p-4 text-sm text-chalk-white/80">
           <p>
             HackEcho pauses the lesson at specific stop-points. To continue, you
-            must type the exact echo snippet in the editor.
+            track milestones and earn XP as you progress.
           </p>
           <p className="text-sm text-chalk-white/70">
             {languageContent.docTitle}: {languageContent.docBody}
           </p>
           <ol className="list-decimal space-y-2 pl-5">
             <li>Start the lesson timer to simulate the video timeline.</li>
-            <li>When a milestone hits, the session locks.</li>
-            <li>Type the required snippet to unlock and earn XP.</li>
+            <li>Milestones unlock automatically as time passes.</li>
+            <li>Use the snippet reference to review syntax.</li>
           </ol>
           <div className="rounded-lg border border-electric-cyan/20 bg-electric-cyan/10 p-3 text-xs text-electric-cyan">
-            Pro tip: Whitespace is normalized, so focus on matching the exact
-            tokens.
+            Pro tip: Use milestones to pace your practice sessions.
           </div>
           <div className="rounded-lg border border-white/10 bg-industrial-after-dark/90 p-3">
             <p className="text-xs uppercase text-chalk-white/50">Level example</p>
@@ -250,7 +215,6 @@ export default function InteractivePlayer({
           <button
             className="rounded-full bg-electric-cyan px-4 py-2 text-sm font-semibold text-industrial-after-dark shadow-glow"
             onClick={() => setIsRunning(true)}
-            disabled={lockedMilestone !== null}
           >
             {isRunning ? "Running" : "Start Timer"}
           </button>
@@ -264,38 +228,22 @@ export default function InteractivePlayer({
             className="rounded-full border border-white/20 px-4 py-2 text-sm text-chalk-white/80 hover:border-electric-cyan/50"
             onClick={() => {
               setIsRunning(false);
-              setLockedMilestone(null);
               setCompletedTimes([]);
+              setElapsedSeconds(0);
             }}
           >
             Reset
           </button>
         </div>
-        {lockedMilestone ? (
-          <div className="mt-4 rounded-xl border border-neon-purple/30 bg-neon-purple/10 p-4 text-center">
-            <p className="text-xs uppercase text-neon-purple">Echo Required</p>
-            <p className="mt-1 text-lg font-semibold">{lockedMilestone.label}</p>
-            <p className="text-xs text-chalk-white/60">
-              Type the snippet in the editor to resume.
-            </p>
-          </div>
-        ) : null}
+        <div className="mt-4 rounded-xl border border-white/10 bg-industrial-after-dark/80 p-3 text-xs text-chalk-white/70">
+          <p className="font-semibold text-chalk-white">Timer</p>
+          <p className="mt-1">Elapsed: {elapsedSeconds}s</p>
+        </div>
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-lg font-semibold">Monaco Editor</h2>
-          <div className="flex items-center gap-2 text-xs text-chalk-white/60">
-            {lockedMilestone ? (
-              <span className="rounded-full bg-neon-purple/20 px-2 py-1 text-neon-purple">
-                Locked
-              </span>
-            ) : (
-              <span className="rounded-full bg-electric-cyan/20 px-2 py-1 text-electric-cyan">
-                Live
-              </span>
-            )}
-          </div>
+          <h2 className="text-lg font-semibold">Snippet Reference</h2>
         </div>
         <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-chalk-white/70">
           <label className="text-xs uppercase tracking-wide text-chalk-white/50">
@@ -323,54 +271,14 @@ export default function InteractivePlayer({
             <option value="ruby">Ruby</option>
           </select>
         </div>
-        <div className="h-[420px] overflow-hidden rounded-xl border border-white/10">
-          <Editor
-            height="100%"
-            language={language}
-            theme="vs-dark"
-            value={code}
-            onChange={(value) => setCode(value ?? "")}
-            options={{
-              fontSize: 14,
-              minimap: { enabled: false },
-              scrollBeyondLastLine: false,
-              wordWrap: "on"
-            }}
-          />
+        <div className="rounded-xl border border-white/10 bg-industrial-after-dark/90 p-3">
+          <p className="text-xs uppercase text-chalk-white/50">Reference snippet</p>
+          <pre className="mt-2 overflow-x-auto text-xs text-chalk-white/80">
+            {languageContent.exampleCode}
+          </pre>
         </div>
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-          <button
-            className="rounded-full bg-electric-cyan px-4 py-2 text-xs font-semibold text-industrial-after-dark"
-            onClick={handleRun}
-          >
-            Run Code
-          </button>
-          <span className="text-xs text-chalk-white/60">
-            Expected output: {languageContent.expectedOutput}
-          </span>
-        </div>
-        <div className="mt-3 rounded-xl border border-white/10 bg-industrial-after-dark/80 p-4 text-xs">
-          <div className="flex items-center justify-between">
-            <p className="font-semibold text-chalk-white">Output / Console</p>
-            <span
-              className={
-                outputStatus === "success"
-                  ? "text-electric-cyan"
-                  : outputStatus === "error"
-                  ? "text-neon-purple"
-                  : "text-chalk-white/50"
-              }
-            >
-              {outputStatus === "success"
-                ? "Correct"
-                : outputStatus === "error"
-                ? "Wrong"
-                : "Idle"}
-            </span>
-          </div>
-          <div className="mt-2 rounded-lg border border-white/10 bg-black/40 p-3 text-chalk-white/70">
-            {output}
-          </div>
+        <div className="mt-3 text-xs text-chalk-white/60">
+          Expected output: {languageContent.expectedOutput}
         </div>
         <div className="mt-3 rounded-xl border border-white/10 bg-industrial-after-dark/80 p-3 text-xs text-chalk-white/70">
           <p className="font-semibold text-chalk-white">Milestones</p>

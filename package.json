@@ -2,7 +2,7 @@
   "name": "hackecho",
   "version": "1.0.0",
   "private": true,
-  "description": "HackEcho is an open-source, AI‑powered learning platform.",
+  "description": "HackEcho is an open-source learning platform.",
   "keywords": [],
   "homepage": "https://github.com/AnupSharma12/HackEcho#readme",
   "bugs": {
@@ -26,11 +26,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.17.0",
     "@monaco-editor/react": "^4.6.0",
     "bcryptjs": "^2.4.3",
     "jose": "^6.1.3",
     "jsonwebtoken": "^9.0.2",
+    "marked": "^12.0.2",
     "mongoose": "^8.9.2",
     "next": "^16.1.6",
     "react": "18.3.1",

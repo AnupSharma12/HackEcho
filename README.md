@@ -1,7 +1,7 @@
 # HackEcho
 
-**HackEcho** is an open-source, AI‑powered learning platform that turns coding lessons into interactive, gamified quests. Each level generates **documentation**, **example code**, and **answer feedback** tailored to the user’s language and level—**only once** per user + level + language to preserve consistency and save AI credits.
-🚀 **[Live Demo](#)** | 📖 **[Deployment Guide](DEPLOYMENT_GUIDE.md)** | 🔑 **[OAuth Setup](OAUTH_SETUP.md)**
+**HackEcho** is an open-source learning platform that turns coding lessons into interactive, gamified quests. Each level ships with structured **documentation**, **example code**, and **answer feedback** tailored to the user’s language and level.
+🚀 **[Live Demo](#)** | 🔑 **[OAuth Setup](OAUTH_SETUP.md)**
 
 ---
 
@@ -25,23 +25,23 @@ npm run dev
 
 Visit **http://localhost:3000** to see the app!
 
-For detailed setup instructions, see **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)**
+ 
 ---
 
 ## ✨ Highlights
 
-- **AI‑Generated Levels** (Docs + Example Code + Task)
-- **Answer Checking with AI Feedback** (correct/incorrect + suggestions)
+- **Structured Levels** (Docs + Example Code + Task)
+- **Answer Checking with Feedback** (correct/incorrect + suggestions)
 - **Level Progression** (unlock next only after completion)
 - **Multi‑Language Tracks** (different content per language)
 - **JWT Auth** (email/password + Google + GitHub OAuth)
-- **MongoDB Persistence** (no duplicate AI generation)
+- **MongoDB Persistence** (no duplicate content generation)
 
 ---
 
 ## 🧠 Core Rule
 
-For each **User + Level + Language**, AI content is generated **once** and stored. Replaying the same level loads the existing content (no regeneration, no extra credits).
+For each **User + Level + Language**, content is created **once** and stored. Replaying the same level loads the existing content.
 
 ---
 
@@ -49,9 +49,9 @@ For each **User + Level + Language**, AI content is generated **once** and store
 
 - **Dashboard**
 	- Language selector
-	- Level selector + topic
-	- Generated documentation + example code
-	- Answer input + AI feedback
+	- Level selector
+	- Documentation + example code
+	- Answer input + feedback
 	- Progress indicator
 
 ---
@@ -62,7 +62,7 @@ For each **User + Level + Language**, AI content is generated **once** and store
 - **Tailwind CSS**
 - **MongoDB + Mongoose**
 - **JWT Auth**
-- **Google Gemini (Generative AI)**
+- **REST APIs**
 
 ---
 
@@ -81,8 +81,6 @@ Create `.env.local` from the template and update values:
 ```env
 MONGODB_URI=mongodb+srv://USER:PASSWORD@cluster0.mongodb.net/hackecho
 JWT_SECRET=replace-with-strong-secret
-GEMINI_API_KEY=your-gemini-api-key
-
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
 GOOGLE_CLIENT_ID=your-google-client-id
@@ -112,18 +110,18 @@ Protected routes: `/dashboard`, `/levels`, `/profile`, `/settings`
 
 ---
 
-## 🧪 AI Flow (Per Level)
+## 🧪 Level Flow (Per Level)
 
 **Step 1:** User selects language + level
 
 **Step 2:** Server checks MongoDB for existing content
 
 - ✅ If found → return cached docs/code/task
-- ❌ If missing → generate once using Gemini and store
+- ❌ If missing → create once and store
 
 **Step 3:** User submits answer
 
-**Step 4:** AI validates and returns feedback
+**Step 4:** System validates and returns feedback
 
 **Step 5:** If correct → unlock next level
 
@@ -142,17 +140,17 @@ Protected routes: `/dashboard`, `/levels`, `/profile`, `/settings`
 
 ### Levels
 
-- userId
+- levelId
+- levelName
 - language
-- levelNumber
-- documentation
-- exampleCode
-- question
-- aiFeedback
-- a🚢 Deployment
+- docs
+- task
+- expectedAnswer
+- mcqs
+- xpReward
 
 ### ✅ Completed
-- [x] AI-powered level generation (Google Gemini)
+- [x] Level generation pipeline
 - [x] Answer evaluation with feedback
 - [x] Email/password authentication
 - [x] Google OAuth integration
@@ -163,31 +161,24 @@ Protected routes: `/dashboard`, `/levels`, `/profile`, `/settings`
 - [x] MongoDB persistence
 
 ### 🔜 Upcoming
-- [ ] Admin panel to manage AI prompts
+- [ ] Admin panel for curriculum management
 - [ ] Leaderboards + global rankings
 - [ ] Streak tracking and gamification
 - [ ] Team classrooms and collaboration
 - [ ] Export learning reports (PDF)
 - [ ] Mobile app (React Native)
 - [ ] Code playground with live execution
-- [ ] Multi-language support (UI
-1. Click the button above or connect your GitHub repo to Vercel
-2. Add environment variables (see `.env.example`)
-3. Deploy!
+- [ ] Multi-language support (UI)
 
-### Other Platforms
+## TODO
 
-- **Railway**: Connect GitHub → Add env vars → Deploy
-- **DigitalOcean**: Use App Platform with GitHub integration
-- **Netlify**: Use Next.js plugin + environment variables
-
-For detailed deployment instructions, see **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)**
-
----
-
-## ttempts
-
----
+- [ ] A Code Editor
+- [ ] More Levels
+- [ ] AI to check Answers
+- [ ] Add MCQ review mode with explanations and retry guidance
+- [ ] Add MCQ analytics (accuracy per level and per concept)
+- [ ] Add question randomization and difficulty tags
+- [ ] Improve Markdown rendering for long-form curriculum docs
 
 ## 🔌 API Routes
 
@@ -202,16 +193,15 @@ For detailed deployment instructions, see **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUI
 - `GET /api/auth/oauth/github`
 - `GET /api/auth/oauth/github/callback`
 
-### AI Levels
+### Levels
 
-- `POST /api/levels/ensure` → generate or load cached level
 - `POST /api/levels/submit` → evaluate answer + unlock next
 
 ---
 
 ## 🧭 Roadmap
 
-- [ ] Admin panel to manage AI prompts
+- [ ] Admin panel for curriculum management
 - [ ] Leaderboards + streaks
 - [ ] Team classrooms
 - [ ] Export learning reports (PDF)

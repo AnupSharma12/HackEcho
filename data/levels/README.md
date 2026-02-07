@@ -26,12 +26,30 @@ Each programming language has its own separate file in this folder. This makes i
   levelName: "Loops",
   language: "javascript",
   docs: `
-    <h2>JavaScript Loops</h2>
-    <p>Your HTML-formatted documentation here...</p>
+## JavaScript Loops
+
+### Overview
+Your Markdown documentation here...
+
+### Example
+\`\`\`javascript
+for (let i = 0; i < 3; i++) {
+  console.log(i);
+}
+\`\`\`
   `,
   task: "Your task description",
   expectedAnswer: "expected code here",
-  xpReward: 300
+  xpReward: 300,
+  mcqs: [
+    {
+      id: "js-006-q1",
+      question: "Which loop runs three times?",
+      options: ["for (let i = 0; i < 3; i++)", "for (let i = 0; i <= 3; i++)"],
+      correctIndex: 0,
+      explanation: "The condition i < 3 runs three times."
+    }
+  ]
 }
 ```
 
@@ -118,12 +136,12 @@ Examples:
 - **Advanced**: 350-500 XP
 - **Projects**: 500-1000 XP
 
-## HTML Tags Supported in Docs
+## Markdown Supported in Docs
 
-- Headers: `<h2>`, `<h3>`
-- Text: `<p>`, `<strong>`, `<em>`, `<u>`, `<del>`
-- Code: `<code>`, `<pre><code>...</code></pre>`
-- Lists: `<ul>`, `<ol>`, `<li>`
+- Headers: `##`, `###`
+- Text: `**bold**`, `*italic*`
+- Code blocks: triple backticks
+- Lists: `-` or `1.`
 
 ## Tips
 

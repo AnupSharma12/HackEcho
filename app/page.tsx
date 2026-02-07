@@ -46,7 +46,7 @@ export default function Home() {
             The gamified coding platform for students
           </h2>
           <p className="mt-4 text-sm text-chalk-white/70">
-            HackEcho blends guided instruction with real-time code matching,
+            HackEcho blends guided instruction with structured practice,
             streaks, and XP to keep learners engaged.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -98,9 +98,9 @@ export default function Home() {
             New: Multi-language tracks in JavaScript, Python, Java, and more.
           </div>
           <div className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4 text-xs text-chalk-white/70">
-            <p className="font-semibold text-chalk-white">AI generated</p>
+            <p className="font-semibold text-chalk-white">Built-in guidance</p>
             <p className="mt-2">
-              Every level ships with personalized docs, example code, and instant
+              Every level ships with structured docs, example code, and instant
               feedback.
             </p>
           </div>
@@ -141,8 +141,8 @@ export default function Home() {
             description: "Pick JavaScript, Python, Java, or any track you want."
           },
           {
-            title: "2. Generate your level",
-            description: "AI builds docs + examples once per level."
+            title: "2. Load your level",
+            description: "Docs + examples load instantly for every level."
           },
           {
             title: "3. Submit + unlock",
@@ -168,7 +168,7 @@ export default function Home() {
           <div>
             <h3 className="text-2xl font-semibold">Built for focused learning</h3>
             <p className="mt-2 text-sm text-chalk-white/70">
-              Keep your streak alive with clear goals, short sessions, and AI
+              Keep your streak alive with clear goals, short sessions, and rapid
               feedback.
             </p>
           </div>
